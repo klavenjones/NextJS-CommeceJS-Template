@@ -1,0 +1,7 @@
+
+
+module.exports = {
+  env: {
+    CHEC_PUBLIC_API_KEY: Commerce JS API 
+  }
+}
