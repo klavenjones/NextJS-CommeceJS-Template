@@ -7,7 +7,7 @@ export default function CategoryList({ categories }) {
     <>
       <ul>
         {categories.map((category) => (
-          <li>
+          <li key={category.slug}>
             <Link href={`/categories/${category.slug}`}>
               <a>
                 <Category {...category} />
