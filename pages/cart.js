@@ -1,11 +1,32 @@
-import { useCartState } from '../context/cart'
+import commerce from '../lib/commerce'
+import { useCartState, useCartDispatch } from '../context/cart'
 
-function CartItem({ name, quantity, line_total }) {
+function CartItem({ id, name, quantity, line_total }) {
+  const { setCart } = useCartDispatch()
+  const handleUpdateCart = ({ cart }) => setCart(cart)
+
+  const removeItem = () => commerce.cart.remove(id).then(handleUpdateCart)
+
+  const decrementQuantity = () => {
+    quantity > 1
+      ? commerce.cart
+          .update(id, { quantity: quantity - 1 })
+          .then(handleUpdateCart)
+      : removeItem()
+  }
+
+  const incrementQuantity = () => {
+    commerce.cart.update(id, { quantity: quantity + 1 }).then(handleUpdateCart)
+  }
+
   return (
     <>
       <h1>{name}</h1>
       <h1>{quantity}</h1>
       <h1>{line_total.formatted_with_symbol}</h1>
+      <button onClick={decrementQuantity}>-</button>
+      <button onClick={incrementQuantity}>+</button>
+      <button onClick={removeItem}>x</button>
     </>
   )
 }

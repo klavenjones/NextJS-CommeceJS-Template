@@ -33,8 +33,13 @@ export default function ProductPage({ product }) {
   const { setCart } = useCartDispatch()
   const [quantity, setQuantity] = useState(0)
 
-  const addToCart = () =>
-    commerce.cart.add(product.id).then(({ cart }) => setCart(cart))
+  const addToCart = () => {
+    if (quantity > 0) {
+      commerce.cart.add(product.id, quantity).then(({ cart }) => setCart(cart))
+      setQuantity(0)
+    }
+  }
+
   const emptyCart = () =>
     commerce.cart.empty().then(({ cart }) => setCart(cart))
 
@@ -42,7 +47,15 @@ export default function ProductPage({ product }) {
     <>
       <h1>{product.name}</h1>
       <p>{product.price.formatted_with_symbol}</p>
-      <button onClick={() => setQuantity(quantity - 1)}>-</button>
+      <button
+        onClick={() => {
+          if (quantity > 0) {
+            setQuantity(quantity - 1)
+          }
+        }}
+      >
+        -
+      </button>
       {quantity}
       <button onClick={() => setQuantity(quantity + 1)}>+</button>
       <button onClick={addToCart}>Add to Cart</button>

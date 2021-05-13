@@ -37,7 +37,6 @@ export default function CategoryPage({ category, products }) {
   return (
     <>
       <h1>{category.name}</h1>
-
       <ProductList products={products} />
     </>
   )
