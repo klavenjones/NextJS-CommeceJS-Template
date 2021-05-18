@@ -4,7 +4,7 @@ import Product from './product'
 import React from 'react'
 
 export default function ProductList({ products }) {
-  if (!products) return null
+  if (!products || products.length === 0) return null
 
   return (
     <ul>

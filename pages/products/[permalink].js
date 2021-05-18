@@ -12,7 +12,8 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       product
-    }
+    },
+    revalidate: 60
   }
 }
 
@@ -31,6 +32,13 @@ export async function getStaticPaths() {
 
 export default function ProductPage({ product }) {
   const { setCart } = useCartDispatch()
+  const {
+    variant_groups: variantGroups,
+    assets,
+    meta,
+    related_products: relatedProducts
+  } = product
+
   const [quantity, setQuantity] = useState(0)
 
   const addToCart = () => {
@@ -47,6 +55,7 @@ export default function ProductPage({ product }) {
     <>
       <h1>{product.name}</h1>
       <p>{product.price.formatted_with_symbol}</p>
+    
       <button
         onClick={() => {
           if (quantity > 0) {
